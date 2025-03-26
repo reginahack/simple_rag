@@ -32,7 +32,7 @@ def enable_telemetry(log_to_project: bool = False):
     AIInferenceInstrumentor().instrument()
 
     # enable logging message contents
-    os.environ["AZURE_TRACING_GEN_AI_CONTENT_RECORDING_ENABLED"] = "true"
+    os.environ["SPEECH_KEY"]
 
     if log_to_project:
         from azure.monitor.opentelemetry import configure_azure_monitor

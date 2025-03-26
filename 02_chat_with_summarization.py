@@ -1,3 +1,6 @@
+# source .venv/bin/activate
+# python chat_with_speech.py --query "I need a sturdy scratch post for my cat, what would you recommend?"
+
 import os
 from pathlib import Path
 from opentelemetry import trace
@@ -6,6 +9,8 @@ from azure.identity import DefaultAzureCredential
 from config import ASSET_PATH, get_logger, enable_telemetry
 from get_product_documents import get_product_documents
 from azure.ai.inference.prompts import PromptTemplate
+from summarize import extractive_summarization, authenticate_client
+from text_to_speech import synthesize_speech
 
 # initialize logging and tracing objects
 logger = get_logger(__name__)
@@ -49,7 +54,7 @@ if __name__ == "__main__":
         "--query",
         type=str,
         help="Query to use to search product",
-        default="I need a new tent for 4 people, what would you recommend?",
+        default="I need a new interactive toy for 2 cats, what would you recommend?",
     )
     parser.add_argument(
         "--enable-telemetry",
@@ -62,3 +67,14 @@ if __name__ == "__main__":
 
     # run chat with products
     response = chat_with_products(messages=[{"role": "user", "content": args.query}])
+
+    # Input text to synthesize
+    input_text = response["message"].content
+    
+    client = authenticate_client()
+    document = [input_text]
+    summary = extractive_summarization(client, document)
+    print("Summary:", summary)
+
+    # Call the function
+    synthesize_speech(text=summary, voice_name="en-IE-EmilyNeural", region="swedencentral")

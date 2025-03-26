@@ -5,3 +5,5 @@ azure-search-documents
 pandas
 python-dotenv
 opentelemetry-api
+azure.cognitiveservices.speech
+azure.ai.textanalytics

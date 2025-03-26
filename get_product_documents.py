@@ -110,7 +110,7 @@ if __name__ == "__main__":
         "--query",
         type=str,
         help="Query to use to search product",
-        default="I need a new tent for 4 people, what would you recommend?",
+        default="I need a new toy for 2 cats, what would you recommend?",
     )
 
     args = parser.parse_args()
